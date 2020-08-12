@@ -1,18 +1,45 @@
+
+package board;
+
+import com.google.common.collect.ImmutableMap;
+import piece.Piece;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Tile
 {
-    int tileCoordinate;
+    protected final int tileCoordinate;
 
-    public Tile(int tileCoordinate)
+    private static final Map<Integer,EmptyTile> emptyTiles=createPossibleEmptyTiles(); //initiates a key for all tiles
+
+    private static Map<Integer, EmptyTile> createPossibleEmptyTiles()
     {
-        this.tileCoordinate=tileCoordinate;
+        final Map<Integer,EmptyTile> emptyTileMap=new HashMap<>();
+        for (int i=0;i<64;i++)
+        {
+            emptyTileMap.put(i,new EmptyTile(i)); //initializing all empty tiles
+        }
+
+        return ImmutableMap.copyOf(emptyTileMap); //making an immutable tile
     }
 
-    public abstract boolean isOccupied();
-    public abstract Piece getPiece[];
+    public static Tile createTile(final int tileCoordinate,final Piece piece)
+    {
+        return piece!=null ? new OccupiedTile(tileCoordinate,piece):emptyTiles.get(tileCoordinate);//if piece is not null returns an occupied tile otherwise empty tile
+    }
+
+    private Tile(int tileCoordinate)
+    {
+        this.tileCoordinate=tileCoordinate; //tile constructor immuatable from outside
+    }
+
+    public abstract boolean isOccupied();//defined later
+    public abstract Piece getPiece();
 
     public static final class EmptyTile extends Tile
     {
-        public EmptyTile(int coordinate)
+        public EmptyTile(final int coordinate)
         {
             super(coordinate);
         }
@@ -21,7 +48,7 @@ public abstract class Tile
         {
             return false;
         }
-        public Piece getPiece[]
+        public Piece getPiece()
         {
                 return null;
         }
@@ -29,7 +56,7 @@ public abstract class Tile
 
     public static final class OccupiedTile extends Tile
     {
-        Piece pieceOnTile;
+        private final Piece pieceOnTile;
         public OccupiedTile(int tileCoordinate,Piece pieceOnTile)
         {
             super(tileCoordinate);
@@ -39,7 +66,7 @@ public abstract class Tile
         {
             return true;
         }
-        public Piece getPiece[]
+        public Piece getPiece()
         {
                 return this.pieceOnTile;
         }
