@@ -1,8 +1,8 @@
 
-package board;
+package Game.board;
 
+import Game.piece.Piece;
 import com.google.common.collect.ImmutableMap;
-import piece.Piece;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +29,7 @@ public abstract class Tile
         return piece!=null ? new OccupiedTile(tileCoordinate,piece):emptyTiles.get(tileCoordinate);//if piece is not null returns an occupied tile otherwise empty tile
     }
 
-    private Tile(int tileCoordinate)
+    private Tile(final int tileCoordinate)
     {
         this.tileCoordinate=tileCoordinate; //tile constructor immuatable from outside
     }
@@ -39,7 +39,7 @@ public abstract class Tile
 
     public static final class EmptyTile extends Tile
     {
-        public EmptyTile(final int coordinate)
+        private EmptyTile(final int coordinate)
         {
             super(coordinate);
         }
@@ -57,7 +57,7 @@ public abstract class Tile
     public static final class OccupiedTile extends Tile
     {
         private final Piece pieceOnTile;
-        public OccupiedTile(int tileCoordinate,Piece pieceOnTile)
+        private OccupiedTile(int tileCoordinate,final Piece pieceOnTile)
         {
             super(tileCoordinate);
             this.pieceOnTile=pieceOnTile;
