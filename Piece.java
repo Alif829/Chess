@@ -5,6 +5,7 @@ import Game.Alliance;
 import Game.board.Board;
 import Game.board.Move;
 
+import java.util.Collection;
 import java.util.List;
 
 public abstract class Piece
@@ -18,5 +19,15 @@ public abstract class Piece
         this.pieceAlliance=pieceAlliance;
     }
 
-    public abstract List<Move> validMoves(final Board board);  //gives a arraylist of legal moves for a piece
+    public int getPiecePositions()
+    {
+        return this.piecePositions;
+    }
+
+    public Alliance getPieceAlliance()
+    {
+        return this.pieceAlliance;
+    }
+
+    public abstract Collection<Move> validMoves(final Board board);  //gives a arraylist of legal moves for a piece
 }
